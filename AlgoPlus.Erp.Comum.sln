@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgoPlus.Erp.Common", "AlgoPlus.Erp.Common\AlgoPlus.Erp.Common.csproj", "{5AD01235-2752-4638-BDF5-C478B278DBA9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgoPlus.Erp.Comum", "AlgoPlus.Erp.Comum\AlgoPlus.Erp.Comum.csproj", "{B44F4DD7-5DA1-4E37-8E23-F35A6AC44E66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5AD01235-2752-4638-BDF5-C478B278DBA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5AD01235-2752-4638-BDF5-C478B278DBA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5AD01235-2752-4638-BDF5-C478B278DBA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5AD01235-2752-4638-BDF5-C478B278DBA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B44F4DD7-5DA1-4E37-8E23-F35A6AC44E66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B44F4DD7-5DA1-4E37-8E23-F35A6AC44E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B44F4DD7-5DA1-4E37-8E23-F35A6AC44E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B44F4DD7-5DA1-4E37-8E23-F35A6AC44E66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6E247311-DCD5-45EE-AC70-270F80036599}
+		SolutionGuid = {4654C660-41F4-4C5A-97B1-6180182D544D}
 	EndGlobalSection
 EndGlobal
