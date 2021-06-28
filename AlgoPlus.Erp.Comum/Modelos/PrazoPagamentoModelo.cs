@@ -6,13 +6,14 @@ namespace AlgoPlus.Erp.Comum.Modelos
     {
         public PrazoPagamentoModelo(Guid id, Guid? idFormaPagamento, string descricao, string prazos, bool ativo)
         {
-            Id = id;
+            IdPrazoPagamento = id;
             IdFormaPagamento = idFormaPagamento;
             Descricao = descricao;
             Prazos = prazos;
+            Ativo = ativo;
         }
 
-        public Guid Id { get; protected set; }
+        public Guid IdPrazoPagamento { get; protected set; }
         public Guid? IdFormaPagamento { get; protected set; }
         public string Descricao { get; protected set; }
         public string Prazos { get; protected set; }
@@ -22,9 +23,16 @@ namespace AlgoPlus.Erp.Comum.Modelos
 
         private int CalcularParcelas()
         {
-            if (string.IsNullOrEmpty(Prazos))
+            try
+            {
+                if (string.IsNullOrEmpty(Prazos))
+                    return 0;
+                return Prazos.Split(";").Length;
+            }
+            catch
+            {
                 return 0;
-            return Prazos.Split(";").Length;
+            }
         }
     }
 }

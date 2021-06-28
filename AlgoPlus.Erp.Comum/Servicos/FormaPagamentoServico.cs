@@ -9,40 +9,73 @@ using System.Threading.Tasks;
 
 namespace AlgoPlus.Erp.Comum.Servicos
 {
-    public class FormaPagamentoServico
+    public class FormaPagamentoServico : BaseServico
     {
-        private readonly IUnitOfWorkComum uow;
-        private readonly IMapper mapper;
 
-        public FormaPagamentoServico(IUnitOfWorkComum uow, IMapper mapper) 
+        public FormaPagamentoServico(IUnitOfWorkComum uow, IMapper mapper) : base(uow, mapper)
         {
-            this.uow = uow;
-            this.mapper = mapper;
         }
 
+        #region Forma Pagamento
+
+        public async Task SalvarAsync(FormaPagamentoEditarDTO formaVm)
+        {
+            if (formaVm.TipoPgtoNFe <= 0)
+                contract.AddNotification("IdPgtoNFe", "O campo IdPgtoNFe é de preenchimento obrigatório");
+            if (string.IsNullOrEmpty(formaVm.Descricao))
+                contract.AddNotification("Descricao", "O campo Descrição é de preenchimento obrigatório");
+
+            var forma = new FormaPagamentoModelo
+            {
+                Ativo = formaVm.Ativo,
+                Descricao = formaVm.Descricao,
+                IdFormaPagamento = formaVm.IdFormaPagamento,
+                TipoPgtoNFe = formaVm.TipoPgtoNFe
+            };
+
+            await uow.FormasPagamento.SalvarAsync(forma);
+        }
+
+        public async Task<IList<FormaPagamentoModelo>> ObterFormasAsync()
+        {
+            var formas = await uow.FormasPagamento.ObterFormasAsync();
+            return formas;
+        }
+
+        public async Task<IList<FormaPagamentoModelo>> ObterFormasAtivasAsync()
+        {
+            var formas = await uow.FormasPagamento.ObterFormasAsync();
+            return formas.Where(x => x.Ativo).ToList();
+        }
+        #endregion
+
+        #region Prazo Pagamento
         public async Task SalvarAsync(PrazoPagamentoEditarDTO prazoVm)
         {
-            var prazo = new PrazoPagamentoModelo(prazoVm.Id, prazoVm.IdFormaPagamento, prazoVm.Descricao, prazoVm.Prazos, prazoVm.Ativo);
-            await uow.FormasPagamento.SalvarAsync(prazo);
+            if (string.IsNullOrEmpty(prazoVm.Descricao))
+                contract.AddNotification("Descricao", "O campo Descrição é de preenchimento obrigatório");
+
+            if (string.IsNullOrEmpty(prazoVm.Prazo))
+                contract.AddNotification("Prazo", "O campo Prazo(s) é de preenchimento obrigatório");
+
+            if (!Contract.Valid)
+                return;
+
+            var forma = new PrazoPagamentoModelo(prazoVm.IdPrazoPagamento, prazoVm.IdFormaPagamento, prazoVm.Descricao, prazoVm.Prazo, prazoVm.Ativo);
+            await uow.PrazosPagamento.SalvarAsync(forma);
         }
 
-        public IList<FormaPagamentoModelo> ObterFormas()
+        public async Task<IList<PrazoPagamentoModelo>> ObterPrazosAtivosPorFormaAsync(Guid idFormaPagamento)
         {
-            return new List<FormaPagamentoModelo>
-            {
-                new FormaPagamentoModelo
-                {
-                    Id = new Guid("fae4da80-38e3-44ac-8f36-04a061e8c5d2"),
-                    Descricao = "DEPÓSITO BANCÁRIO",
-                    IdPgtoNFe = 16
-                }
-            };
+            var prazos = await uow.PrazosPagamento.ObterPrazosAsync(idFormaPagamento);
+            return prazos.Where(x => x.Ativo).ToList();
         }
 
         public async Task<IList<PrazoPagamentoModelo>> ObterPrazosPorFormaAsync(Guid idFormaPagamento)
         {
-            var prazos = await uow.FormasPagamento.ObterPrazosAsync(idFormaPagamento);
+            var prazos = await uow.PrazosPagamento.ObterPrazosAsync(idFormaPagamento);
             return prazos.Where(x => x.Ativo).ToList();
         }
+        #endregion
     }
 }
