@@ -17,7 +17,6 @@ namespace AlgoPlus.Erp.Comum.Servicos
         }
 
         #region Forma Pagamento
-
         public async Task SalvarAsync(FormaPagamentoEditarDTO formaVm)
         {
             if (formaVm.TipoPgtoNFe <= 0)
@@ -30,7 +29,8 @@ namespace AlgoPlus.Erp.Comum.Servicos
                 Ativo = formaVm.Ativo,
                 Descricao = formaVm.Descricao,
                 IdFormaPagamento = formaVm.IdFormaPagamento,
-                TipoPgtoNFe = formaVm.TipoPgtoNFe
+                TipoPgtoNFe = formaVm.TipoPgtoNFe,
+                TipoIntegracao = 0
             };
 
             await uow.FormasPagamento.SalvarAsync(forma);
@@ -50,7 +50,7 @@ namespace AlgoPlus.Erp.Comum.Servicos
         #endregion
 
         #region Prazo Pagamento
-        public async Task SalvarAsync(PrazoPagamentoEditarDTO prazoVm)
+        public async Task<PrazoPagamentoEditarDTO> SalvarAsync(PrazoPagamentoEditarDTO prazoVm)
         {
             if (string.IsNullOrEmpty(prazoVm.Descricao))
                 contract.AddNotification("Descricao", "O campo Descrição é de preenchimento obrigatório");
@@ -59,10 +59,30 @@ namespace AlgoPlus.Erp.Comum.Servicos
                 contract.AddNotification("Prazo", "O campo Prazo(s) é de preenchimento obrigatório");
 
             if (!Contract.Valid)
-                return;
-
-            var forma = new PrazoPagamentoModelo(prazoVm.IdPrazoPagamento, prazoVm.IdFormaPagamento, prazoVm.Descricao, prazoVm.Prazo, prazoVm.Ativo);
-            await uow.PrazosPagamento.SalvarAsync(forma);
+                return null;
+            try
+            {
+                var prazo = new PrazoPagamentoModelo(prazoVm.IdPrazoPagamento, prazoVm.IdFormaPagamento, prazoVm.Descricao, prazoVm.Prazo, prazoVm.Ativo);
+                await uow.PrazosPagamento.SalvarAsync(prazo);
+                return new PrazoPagamentoEditarDTO
+                {
+                    Ativo = prazo.Ativo,
+                    Descricao = prazo.Descricao,
+                    IdFormaPagamento = prazo.IdFormaPagamento,
+                    IdPrazoPagamento = prazo.IdPrazoPagamento,
+                    Prazo = prazo.Prazo,
+                    Parcelas = prazo.Parcelas
+                };
+            } 
+            catch(ArgumentException ex)
+            {
+                contract.AddNotification("Prazo", ex.Message);
+                return null;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<IList<PrazoPagamentoModelo>> ObterPrazosAtivosPorFormaAsync(Guid idFormaPagamento)
@@ -74,7 +94,12 @@ namespace AlgoPlus.Erp.Comum.Servicos
         public async Task<IList<PrazoPagamentoModelo>> ObterPrazosPorFormaAsync(Guid idFormaPagamento)
         {
             var prazos = await uow.PrazosPagamento.ObterPrazosAsync(idFormaPagamento);
-            return prazos.Where(x => x.Ativo).ToList();
+            return prazos.ToList();
+        }
+
+        public async Task ExcluirPrazoAsync(Guid idPrazoPagamento)
+        {
+            await uow.FormasPagamento.ExcluirAsync(idPrazoPagamento);
         }
         #endregion
     }
