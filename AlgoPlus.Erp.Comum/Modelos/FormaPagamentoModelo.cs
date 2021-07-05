@@ -9,5 +9,6 @@ namespace AlgoPlus.Erp.Comum.Modelos
         public int TipoPgtoNFe { get; init; }
         public int TipoIntegracao { get; init; }
         public bool Ativo { get; init; }
+        public bool Duplicata { get; init; }
     }
 }

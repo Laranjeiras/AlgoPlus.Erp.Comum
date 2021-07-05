@@ -1,7 +1,7 @@
 ﻿using AlgoPlus.Erp.Comum.DTOs;
 using AlgoPlus.Erp.Comum.Modelos;
 using AlgoPlus.Erp.Comum.Repositorios;
-using AutoMapper;
+using AlgoPlus.Erp.Comum.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +12,12 @@ namespace AlgoPlus.Erp.Comum.Servicos
     public class FormaPagamentoServico : BaseServico
     {
 
-        public FormaPagamentoServico(IUnitOfWorkComum uow, IMapper mapper) : base(uow, mapper)
+        public FormaPagamentoServico(IUnitOfWorkComum uow) : base(uow)
         {
         }
 
         #region Forma Pagamento
-        public async Task SalvarAsync(FormaPagamentoEditarDTO formaVm)
+        public async Task SalvarAsync(FormaPagamentoDTO formaVm)
         {
             if (formaVm.TipoPgtoNFe <= 0)
                 contract.AddNotification("IdPgtoNFe", "O campo IdPgtoNFe é de preenchimento obrigatório");
@@ -30,22 +30,25 @@ namespace AlgoPlus.Erp.Comum.Servicos
                 Descricao = formaVm.Descricao,
                 IdFormaPagamento = formaVm.IdFormaPagamento,
                 TipoPgtoNFe = formaVm.TipoPgtoNFe,
-                TipoIntegracao = 0
+                TipoIntegracao = formaVm.TipoIntegracao,
+                Duplicata = formaVm.Duplicata
             };
 
             await uow.FormasPagamento.SalvarAsync(forma);
         }
 
-        public async Task<IList<FormaPagamentoModelo>> ObterFormasAsync()
+        public async Task<IList<FormaPagamentoDTO>> ObterFormasAsync()
         {
             var formas = await uow.FormasPagamento.ObterFormasAsync();
-            return formas;
+            var dtos = formas.Select(x => x.MapearParaDTO()).ToList();
+            return dtos;
         }
 
-        public async Task<IList<FormaPagamentoModelo>> ObterFormasAtivasAsync()
+        public async Task<IList<FormaPagamentoDTO>> ObterFormasAtivasAsync()
         {
             var formas = await uow.FormasPagamento.ObterFormasAsync();
-            return formas.Where(x => x.Ativo).ToList();
+            var dtos = formas.Select(x => x.MapearParaDTO()).ToList();
+            return dtos.Where(x => x.Ativo).ToList();
         }
         #endregion
 
@@ -64,15 +67,8 @@ namespace AlgoPlus.Erp.Comum.Servicos
             {
                 var prazo = new PrazoPagamentoModelo(prazoVm.IdPrazoPagamento, prazoVm.IdFormaPagamento, prazoVm.Descricao, prazoVm.Prazo, prazoVm.Ativo);
                 await uow.PrazosPagamento.SalvarAsync(prazo);
-                return new PrazoPagamentoEditarDTO
-                {
-                    Ativo = prazo.Ativo,
-                    Descricao = prazo.Descricao,
-                    IdFormaPagamento = prazo.IdFormaPagamento,
-                    IdPrazoPagamento = prazo.IdPrazoPagamento,
-                    Prazo = prazo.Prazo,
-                    Parcelas = prazo.Parcelas
-                };
+                return prazo.MapearParaDTO();
+
             } 
             catch(ArgumentException ex)
             {

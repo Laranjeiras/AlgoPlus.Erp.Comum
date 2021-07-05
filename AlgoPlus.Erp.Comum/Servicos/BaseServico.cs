@@ -8,14 +8,12 @@ namespace AlgoPlus.Erp.Comum.Servicos
     {
         public readonly Contract contract = new Contract();
         public readonly IUnitOfWorkComum uow;
-        public readonly IMapper mapper;
 
         public Contract Contract => contract;
 
-        public BaseServico(IUnitOfWorkComum uow, IMapper mapper)
+        public BaseServico(IUnitOfWorkComum uow)
         {
             this.uow = uow;
-            this.mapper = mapper;
         }
     }
 }
