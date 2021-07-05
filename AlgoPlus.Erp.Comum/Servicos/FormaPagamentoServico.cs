@@ -2,13 +2,19 @@
 using AlgoPlus.Erp.Comum.Modelos;
 using AlgoPlus.Erp.Comum.Repositorios;
 <<<<<<< HEAD
+<<<<<<< HEAD
 using AlgoPlus.Erp.Comum.Utils;
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
 using AutoMapper;
 =======
 using AlgoPlus.Erp.Comum.Utils;
 >>>>>>> 75f0a6785b56515ae8c4ceb7e52f363f6681a165
+<<<<<<< HEAD
+>>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
+=======
 >>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
 using System;
 using System.Collections.Generic;
@@ -21,26 +27,38 @@ namespace AlgoPlus.Erp.Comum.Servicos
     {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         public FormaPagamentoServico(IUnitOfWorkComum uow) : base(uow)
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
         public FormaPagamentoServico(IUnitOfWorkComum uow, IMapper mapper) : base(uow, mapper)
 =======
         public FormaPagamentoServico(IUnitOfWorkComum uow) : base(uow)
 >>>>>>> 75f0a6785b56515ae8c4ceb7e52f363f6681a165
+<<<<<<< HEAD
+>>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
+=======
 >>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
         {
         }
 
         #region Forma Pagamento
 <<<<<<< HEAD
+<<<<<<< HEAD
         public async Task SalvarAsync(FormaPagamentoDTO formaVm)
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
         public async Task SalvarAsync(FormaPagamentoEditarDTO formaVm)
 =======
         public async Task SalvarAsync(FormaPagamentoDTO formaVm)
 >>>>>>> 75f0a6785b56515ae8c4ceb7e52f363f6681a165
+<<<<<<< HEAD
+>>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
+=======
 >>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
         {
             if (formaVm.TipoPgtoNFe <= 0)
@@ -55,15 +73,21 @@ namespace AlgoPlus.Erp.Comum.Servicos
                 IdFormaPagamento = formaVm.IdFormaPagamento,
                 TipoPgtoNFe = formaVm.TipoPgtoNFe,
 <<<<<<< HEAD
+<<<<<<< HEAD
                 TipoIntegracao = formaVm.TipoIntegracao,
                 Duplicata = formaVm.Duplicata
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
                 TipoIntegracao = 0
 =======
                 TipoIntegracao = formaVm.TipoIntegracao,
                 Duplicata = formaVm.Duplicata
 >>>>>>> 75f0a6785b56515ae8c4ceb7e52f363f6681a165
+<<<<<<< HEAD
+>>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
+=======
 >>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
             };
 
@@ -71,9 +95,12 @@ namespace AlgoPlus.Erp.Comum.Servicos
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         public async Task<IList<FormaPagamentoDTO>> ObterFormasAsync()
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
         public async Task<IList<FormaPagamentoModelo>> ObterFormasAsync()
 >>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
         {
@@ -104,6 +131,9 @@ namespace AlgoPlus.Erp.Comum.Servicos
             var dtos = formas.Select(x => x.MapearParaDTO()).ToList();
             return dtos.Where(x => x.Ativo).ToList();
 >>>>>>> 75f0a6785b56515ae8c4ceb7e52f363f6681a165
+<<<<<<< HEAD
+>>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
+=======
 >>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
         }
         #endregion
@@ -124,10 +154,13 @@ namespace AlgoPlus.Erp.Comum.Servicos
                 var prazo = new PrazoPagamentoModelo(prazoVm.IdPrazoPagamento, prazoVm.IdFormaPagamento, prazoVm.Descricao, prazoVm.Prazo, prazoVm.Ativo);
                 await uow.PrazosPagamento.SalvarAsync(prazo);
 <<<<<<< HEAD
+<<<<<<< HEAD
                 return prazo.MapearParaDTO();
 
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
                 return new PrazoPagamentoEditarDTO
                 {
                     Ativo = prazo.Ativo,
@@ -141,6 +174,9 @@ namespace AlgoPlus.Erp.Comum.Servicos
                 return prazo.MapearParaDTO();
 
 >>>>>>> 75f0a6785b56515ae8c4ceb7e52f363f6681a165
+<<<<<<< HEAD
+>>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
+=======
 >>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
             } 
             catch(ArgumentException ex)

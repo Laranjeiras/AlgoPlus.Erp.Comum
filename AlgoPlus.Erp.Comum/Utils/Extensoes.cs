@@ -4,7 +4,10 @@ using AlgoPlus.Erp.Comum.Modelos;
 namespace AlgoPlus.Erp.Comum.Utils
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     // TESTE DE COMMIT
+=======
+>>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
 =======
 >>>>>>> 58c3cc7477366db137005ec13e6c32bb06160a13
     public static class Extensao
